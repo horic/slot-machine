@@ -8,8 +8,8 @@ import akka.Main;
  */
 public class App {
 
-	public static void main(String[] args) {
-		Main.main(new String[] { "com.paypal.billsafe.dojos.Master" });
-	}
+    public static void main(String[] args) {
+        Main.main(new String[] { "com.paypal.billsafe.dojos.Master" });
+    }
 
 }

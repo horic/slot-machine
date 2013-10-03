@@ -11,68 +11,78 @@ import org.junit.Test;
 
 public class WordFinderTest {
 
-	@Test
-	public void returnsTrueIfReaderReadsWord_ignoresCase() {
+    @Test
+    public void returnsTrueIfReaderReadsWord_ignoresCase() {
 
-		String toFind = "ValUe";
+        String toFind = "ValUe";
 
-		BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
+        BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
 
-		WordFinder finder = createFixture(reader);
+        WordFinder finder = createFixture(reader);
 
-		boolean actual = finder.find(toFind);
+        boolean actual = finder.find(toFind);
 
-		assertTrue(actual);
-	}
+        assertTrue(actual);
+    }
 
-	@Test
-	public void closesReaderIfWordFound() {
-		String toFind = "ValUe";
-		BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
-		createFixture(reader).find(toFind);
-		try {
-			verify(reader).close();
-		} catch (IOException e) {
-		}
-	}
 
-	@Test
-	public void closesReaderIfWordNotFound() {
-		String toFind = "ValUe";
-		BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
-		createFixture(reader).find(toFind);
-		try {
-			verify(reader).close();
-		} catch (IOException e) {
-		}
-	}
 
-	@Test
-	public void closesReaderIfNeedleIsEmpty() {
-		String toFind = "";
-		BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
-		createFixture(reader).find(toFind);
-		try {
-			verify(reader).close();
-		} catch (IOException e) {
-		}
-	}
+    @Test
+    public void closesReaderIfWordFound() {
+        String toFind = "ValUe";
+        BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
+        createFixture(reader).find(toFind);
+        try {
+            verify(reader).close();
+        } catch (IOException e) {
+        }
+    }
 
-	private BufferedReader createReaderMock(String word, String... words) {
-		BufferedReader reader = mock(BufferedReader.class);
-		try {
 
-			String[] params = Arrays.copyOf(words, words.length + 1);
 
-			params[words.length] = null;
+    @Test
+    public void closesReaderIfWordNotFound() {
+        String toFind = "ValUe";
+        BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
+        createFixture(reader).find(toFind);
+        try {
+            verify(reader).close();
+        } catch (IOException e) {
+        }
+    }
 
-			when(reader.readLine()).thenReturn(word, params);
-		} catch (IOException e) {
-		}
-		return reader;
-	}
 
-	private WordFinder createFixture(BufferedReader reader) {
-		return new WordFinder(reader);
-	}
+
+    @Test
+    public void closesReaderIfNeedleIsEmpty() {
+        String toFind = "";
+        BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
+        createFixture(reader).find(toFind);
+        try {
+            verify(reader).close();
+        } catch (IOException e) {
+        }
+    }
+
+
+
+    private BufferedReader createReaderMock(String word, String... words) {
+        BufferedReader reader = mock(BufferedReader.class);
+        try {
+
+            String[] params = Arrays.copyOf(words, words.length + 1);
+
+            params[words.length] = null;
+
+            when(reader.readLine()).thenReturn(word, params);
+        } catch (IOException e) {
+        }
+        return reader;
+    }
+
+
+
+    private WordFinder createFixture(BufferedReader reader) {
+        return new WordFinder(reader);
+    }
 }

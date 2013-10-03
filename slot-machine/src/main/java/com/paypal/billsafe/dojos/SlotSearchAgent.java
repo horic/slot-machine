@@ -10,44 +10,39 @@ import akka.actor.UntypedActor;
 
 public class SlotSearchAgent extends UntypedActor {
 
+    @Override
+    public void onReceive(Object message) throws Exception {
 
-	@Override
-	public void onReceive(Object message) throws Exception {
+        if (message instanceof SlotSearchAgentPayload) {
+            SlotSearchAgentPayload payload = (SlotSearchAgentPayload) message;
+            System.out.println(getSelf() + " is seeking in " + payload.getFile());
+            WordFinder finder = createWordFinder(payload);
 
-		if (message instanceof SlotSearchAgentPayload) {
-			SlotSearchAgentPayload payload = (SlotSearchAgentPayload) message;
-			System.out.println(getSelf() + " is seeking in "
-					+ payload.getFile());
-			WordFinder finder = createWordFinder(payload);
+            if (finder == null) {
+                throw new RuntimeException();
+            }
 
-			if (finder == null) {
-				throw new RuntimeException();
-			}
+            SlotSearchAgentResult result = null;
 
-			SlotSearchAgentResult result = null;
+            if (finder.find(payload.getNeedle())) {
+                result = new SlotSearchAgentResult(payload.getFile().getName(), MessageType.FOUND);
+            } else {
+                result = new SlotSearchAgentResult(payload.getFile().getName(), MessageType.NOT_FOUND);
+            }
+            getSender().tell(result, getSelf());
 
-			if (finder.find(payload.getNeedle())) {
-				result = new SlotSearchAgentResult(payload.getFile().getName(),
-						MessageType.FOUND);
-			} else {
-				result = new SlotSearchAgentResult(payload.getFile().getName(),
-						MessageType.NOT_FOUND);
-			}
-			getSender().tell(result, getSelf());
+        } else {
+            unhandled(message);
+        }
+    }
 
-		} else {
-			unhandled(message);
-		}
-	}
 
-	private WordFinder createWordFinder(SlotSearchAgentPayload payload)
-			throws FileNotFoundException {
 
-		WordFinder finder = new WordFinder(new BufferedReader(
-				new InputStreamReader(new FileInputStream(payload.getFile()),
-						Charset.forName("UTF-8"))));
+    private WordFinder createWordFinder(SlotSearchAgentPayload payload) throws FileNotFoundException {
 
-		return finder;
-	}
+        WordFinder finder = new WordFinder(new BufferedReader(new InputStreamReader(new FileInputStream(payload.getFile()), Charset.forName("UTF-8"))));
+
+        return finder;
+    }
 
 }

@@ -6,22 +6,22 @@ import static org.mockito.Mockito.*;
 
 public class AppTest {
 
-	@Test
-	public void testApp() {
+    @Test
+    public void testApp() {
 
-		RandomWordGenerator mock = mock(RandomWordGenerator.class);
+        RandomWordGenerator mock = mock(RandomWordGenerator.class);
 
-		when(mock.generateWord()).thenReturn("ACCIDENT", "INCIDENT", "KUKIDENT");
+        when(mock.generateWord()).thenReturn("ACCIDENT", "INCIDENT", "KUKIDENT");
 
-		assertEquals("ACCIDENT", mock.generateWord());
-		assertEquals("INCIDENT", mock.generateWord());
-		assertEquals("KUKIDENT", mock.generateWord());
-		
-		mock = mock(RandomWordGenerator.class);
-		mock.generateWord();
-		
-		verify(mock).generateWord();
-		
-	}
+        assertEquals("ACCIDENT", mock.generateWord());
+        assertEquals("INCIDENT", mock.generateWord());
+        assertEquals("KUKIDENT", mock.generateWord());
+
+        mock = mock(RandomWordGenerator.class);
+        mock.generateWord();
+
+        verify(mock).generateWord();
+
+    }
 
 }

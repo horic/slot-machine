@@ -5,28 +5,30 @@ import java.io.Serializable;
 
 public class SlotSearchAgentPayload implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private File file;
-	
-	private String needle;
+    private File file;
 
-	public SlotSearchAgentPayload(File file, String needle) {
-
-		this.file = file;
-		this.needle = needle;
-	}
-
-
-	
-	public File getFile() {
-		return file;
-	}
+    private String needle;
 
 
 
-	public String getNeedle() {
-		return needle;
-	}
-	
+    public SlotSearchAgentPayload(File file, String needle) {
+
+        this.file = file;
+        this.needle = needle;
+    }
+
+
+
+    public File getFile() {
+        return file;
+    }
+
+
+
+    public String getNeedle() {
+        return needle;
+    }
+
 }
