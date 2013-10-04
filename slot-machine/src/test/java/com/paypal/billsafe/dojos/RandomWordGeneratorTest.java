@@ -8,16 +8,10 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class RandomWordGeneratorTest {
 
-    @Before
-    public void setup() {
-    }
-
-
-
     @Test
     public void should_returnWordsWithGivenLength() {
         String word = createFixture(10).generateWord();
-        assertThat("should return words with 10 letters", word.length(), equalTo(10));
+        assertThat("should return words with 10 letters if 10 is given wordLength", word.length(), equalTo(10));
     }
 
 
@@ -25,7 +19,7 @@ public class RandomWordGeneratorTest {
     @Test
     public void generatesEmptyStrings() {
         String word = createFixture(0).generateWord();
-        assertThat("shoud return empty string", word.isEmpty(), is(true));
+        assertThat("shoud return empty string if 0 is given wordLength", word.isEmpty(), is(true));
     }
 
 

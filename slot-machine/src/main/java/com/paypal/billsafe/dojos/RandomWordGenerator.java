@@ -28,7 +28,6 @@ public class RandomWordGenerator {
     public String generateWord() {
         StringBuilder sb = new StringBuilder(wordLength);
         for (int i = 0; i < wordLength; i++) {
-
             Letter l = generateLetter(3);
             sb.append(l.name());
         }

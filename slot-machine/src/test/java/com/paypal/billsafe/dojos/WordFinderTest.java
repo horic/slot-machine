@@ -16,11 +16,9 @@ public class WordFinderTest {
 
         String toFind = "ValUe";
 
-        BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
+        WordFinder finder = createFixture();
 
-        WordFinder finder = createFixture(reader);
-
-        boolean actual = finder.find(toFind);
+        boolean actual = finder.find(toFind, createReaderMock(toFind, "WORD", "ANOTHER"));
 
         assertTrue(actual);
     }
@@ -31,7 +29,7 @@ public class WordFinderTest {
     public void closesReaderIfWordFound() {
         String toFind = "ValUe";
         BufferedReader reader = createReaderMock(toFind, "WORD", "ANOTHER");
-        createFixture(reader).find(toFind);
+        createFixture().find(toFind, reader);
         try {
             verify(reader).close();
         } catch (IOException e) {
@@ -44,7 +42,7 @@ public class WordFinderTest {
     public void closesReaderIfWordNotFound() {
         String toFind = "ValUe";
         BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
-        createFixture(reader).find(toFind);
+        createFixture().find(toFind, reader);
         try {
             verify(reader).close();
         } catch (IOException e) {
@@ -57,7 +55,7 @@ public class WordFinderTest {
     public void closesReaderIfNeedleIsEmpty() {
         String toFind = "";
         BufferedReader reader = createReaderMock("HELO", "WORD", "ANOTHER");
-        createFixture(reader).find(toFind);
+        createFixture().find(toFind, reader);
         try {
             verify(reader).close();
         } catch (IOException e) {
@@ -82,7 +80,7 @@ public class WordFinderTest {
 
 
 
-    private WordFinder createFixture(BufferedReader reader) {
-        return new WordFinder(reader);
+    private WordFinder createFixture() {
+        return new WordFinder();
     }
 }

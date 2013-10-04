@@ -1,44 +1,28 @@
 package com.paypal.billsafe.dojos;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.Reader;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 
 public class WordFinder {
 
-    private BufferedReader reader;
 
-
-
-    public WordFinder(BufferedReader reader) {
-        this.reader = reader;
-    }
-
-
-
-    public boolean find(String needle) {
+    public boolean find(String needle, Reader reader) {
+        
+        IOUtils.lineIterator(reader);
+        LineIterator it = IOUtils.lineIterator(reader);
+        
         boolean found = false;
-        try {
-            if (StringUtils.isNotBlank(needle)) {
-                String word = null;
-                while ((word = reader.readLine()) != null) {
-                    if (word.equalsIgnoreCase(needle)) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                // ignore;
+        while (it.hasNext()) {
+            if (StringUtils.equalsIgnoreCase(needle, it.nextLine())) {
+                found = true;
+                break;
             }
         }
+        IOUtils.closeQuietly(reader);
         return found;
     }
-
+    
 }

@@ -29,7 +29,7 @@ public class Master extends UntypedActor {
 
         RandomWordGenerator gnr = new RandomWordGenerator(3);
 
-        String randomWord = "UND";// gnr.generateWord();
+        String randomWord = gnr.generateWord();
 
         System.out.println("try to find word " + randomWord);
 
@@ -62,12 +62,11 @@ public class Master extends UntypedActor {
 
         long duration = endTime - startTime;
 
-        if (found || agentResult == numOfAgents) {
+        if (found) {
             System.out.println("Done. " + getSender() + "  found word in " + duration + " milliseconds");
-
         }
 
-        if (agentResult == numOfAgents) {
+        if (found || agentResult == numOfAgents) {
             getContext().system().shutdown();
         }
     }
